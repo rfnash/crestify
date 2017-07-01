@@ -102,7 +102,8 @@ document.write(moment("{{bookmark.added_on.strftime('%Y-%m-%dT%H:%M:%S+00:00')}}
 				{% if bookmark.tags != [] and bookmark.tags != [''] %}
 				<span class="text-muted">
 					<b>Tags</b>:
-					{% for tag in bookmark.tags %}
+					{% if bookmark.tags is iterable %}
+                                        {% for tag in bookmark.tags %}
 					{% if request.args.get('tags') != None %}
 					<a class="text-muted" href="{{ request.full_path|replace('?tags=' + request.args['tags']|replace(' ', '+'), '?tags=' + request.args['tags'] + ',' + tag) }}">{{ tag }}</a>
 					&nbsp;
@@ -111,6 +112,7 @@ document.write(moment("{{bookmark.added_on.strftime('%Y-%m-%dT%H:%M:%S+00:00')}}
 					&nbsp;
 					{% endif %}
 					{% endfor %}
+					{% endif %}
 				</span>
 				{% endif %}
 

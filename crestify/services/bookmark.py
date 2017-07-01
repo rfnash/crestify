@@ -73,8 +73,20 @@ def edit(id, user_id, title=None, description=None, tags=None):
             ls1 = edit_bookmark.tags
             ls2 = tags.split(',')
             # Compute deltas between new and current tags
-            added_tags = set(ls1 + ls2) - set(ls1)
-            removed_tags = set(ls1 + ls2) - set(ls2)
+            if ls1 is None:
+                if ls2 is None:
+                    added_tags = set()
+                    removed_tags = set()
+                else:
+                    added_tags = set(ls2)
+                    removed_tags = set()
+            else:
+                if ls2 is None:
+                    added_tags = set()
+                    removed_tags = set(l1)
+                else:
+                    added_tags = set(ls1 + ls2) - set(ls1)
+                    removed_tags = set(ls1 + ls2) - set(ls2)
             for tag in added_tags:
                 get_tag = Tag.query.filter_by(text=tag,
                                               user=user_id).first()
