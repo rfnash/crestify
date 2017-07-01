@@ -18,7 +18,7 @@ from datetime import datetime
 def fetch_description(bookmark):
     desc_bookmark = Bookmark.query.get(bookmark.id)
     r = requests.get(desc_bookmark.main_url)
-    soup = BeautifulSoup4(r.content)
+    soup = BeautifulSoup4(r.content, "lxml")
     desc = soup.find(attrs={"name": "description"})
     if desc is not None:
         desc = desc['content']
@@ -30,7 +30,7 @@ def fetch_description(bookmark):
 def fetch_title(bookmark):
     title_bookmark = Bookmark.query.get(bookmark.id)
     r = requests.get(title_bookmark.main_url)
-    soup = BeautifulSoup4(r.content)
+    soup = BeautifulSoup4(r.content, "lxml")
     title = soup.title.string
     title_bookmark.title = title.encode('utf-8')
     db.session.commit()
@@ -46,7 +46,7 @@ def fulltext_extract(bookmark):
     browser.get(fulltext_bookmark.main_url)
     body = browser.find_element_by_tag_name('body')
     bodytext = body.text
-    soup = BeautifulSoup4(bodytext)
+    soup = BeautifulSoup4(bodytext, "lxml")
     full_text = soup.text
     full_text = " ".join(full_text.split())
     full_text = full_text.replace('\n', '')

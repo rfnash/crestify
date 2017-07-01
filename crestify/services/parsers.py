@@ -293,7 +293,7 @@ class InstapaperParser:
             #  Hence why the stuff below is being done, so that the <li> tags get closed
             self.html = html.document_fromstring(self.opened_file.read())
             self.html = html.tostring(self.html)
-        self.soup = BeautifulSoup4(self.html)
+        self.soup = BeautifulSoup4(self.html, "lxml")
         self.user = user_id
         self.urls = dict()
         self.check_duplicates = dict()
@@ -415,7 +415,7 @@ class PocketParser:
     def __init__(self, file_name, user_id):
         with open(file_name, 'r') as self.opened_file:
             self.html = self.opened_file.read()
-        self.soup = BeautifulSoup4(self.html)
+        self.soup = BeautifulSoup4(self.html, "lxml")
         self.user = user_id
         self.urls = dict()
         self.check_duplicates = dict()

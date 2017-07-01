@@ -177,7 +177,7 @@ class InstapaperTestCase(unittest.TestCase):
             create_file = open(os.path.join(app.config['CRESTIFY_UPLOAD_DIRECTORY'], 'test_instapaper.html'), 'w+')
             self.data = html.document_fromstring(json_file.read())
             self.data = html.tostring(self.data)
-            self.html_data = BeautifulSoup4(self.data)
+            self.html_data = BeautifulSoup4(self.data, "lxml")
             self.bookmarks = {}
             for tag in self.html_data.find_all('h1'):
                 parent_elem = tag.find_next_sibling('ol')
@@ -249,7 +249,7 @@ class PocketTestCase(unittest.TestCase):
         with open('Pocket.html') as json_file:
             create_file = open(os.path.join(app.config['CRESTIFY_UPLOAD_DIRECTORY'], 'test_pocket.html'), 'w+')
             self.data = json_file.read()
-            self.html_data = BeautifulSoup4(self.data)
+            self.html_data = BeautifulSoup4(self.data, "lxml")
             self.bookmarks = {}
             for link in self.html_data.find_all('a'):
                 tags = link['tags'].split(',')
